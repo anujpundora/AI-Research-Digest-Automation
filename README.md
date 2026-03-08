@@ -1,180 +1,247 @@
-AI Research Digest Automation (n8n + Gemini)
+# 🤖 AI Research Digest Automation
 
-An automated AI-powered workflow that monitors newly published Artificial Intelligence research papers from arXiv, generates concise bullet-point insights using Google Gemini, and stores them in Google Sheets as a continuously updating research digest.
+### n8n + Gemini + arXiv
 
-This project demonstrates how LLMs can be integrated with workflow automation tools to build real-world AI data pipelines.
+An **AI-powered automation workflow** that monitors newly published Artificial Intelligence research papers from **arXiv**, generates **bullet-point insights using Google Gemini**, and stores them in **Google Sheets** as a continuously updating research digest.
 
-Project Overview
+This project demonstrates how **LLMs can be integrated with workflow automation tools to build real-world AI pipelines.**
+
+---
+
+# 🚀 Project Overview
 
 The system automatically:
 
-• Fetches the latest AI research paper from the arXiv API
-• Extracts the title and abstract
-• Generates a structured prompt
-• Uses Google Gemini to generate 3 bullet-point insights
-• Stores the output in Google Sheets
-• Prevents duplicate processing using workflow logic
+✅ Fetches the **latest AI research papers** from the arXiv API
+✅ Extracts the **paper title and abstract**
+✅ Generates a structured **LLM prompt**
+✅ Uses **Google Gemini** to produce **3 concise bullet-point insights**
+✅ Stores results in **Google Sheets**
+✅ Prevents duplicate processing using workflow logic
 
-The workflow runs on a scheduled trigger, acting as a lightweight AI research monitoring system.
+The workflow runs on a **scheduled trigger**, acting as a lightweight **AI research monitoring system**.
 
-Architecture
+---
+
+# 🧠 System Architecture
+
+```
 Schedule Trigger
-      ↓
+      │
+      ▼
 arXiv API
-      ↓
+      │
+      ▼
 XML → JSON Conversion
-      ↓
+      │
+      ▼
 Prompt Generation
-      ↓
+      │
+      ▼
 Google Sheets Lookup
-      ↓
+      │
+      ▼
 IF Node
-   ├ Existing Paper → Skip
-   └ New Paper
-         ↓
-     Gemini Summarizer
-         ↓
-     Format Output
-         ↓
-     Append Row to Google Sheets
-Workflow Overview
+ ├─ Paper Exists → Skip
+ └─ New Paper
+       │
+       ▼
+   Gemini AI
+       │
+       ▼
+  Format Output
+       │
+       ▼
+Store in Google Sheets
+```
 
+---
 
+# 🛠 Workflow (n8n)
 
+![Workflow](media/workflow.png)
 
-The automation pipeline is orchestrated using n8n, which connects external APIs, AI models, and storage services.
+The pipeline is orchestrated using **n8n**, which integrates APIs, automation, and AI models into a single workflow.
 
-Example Output
+---
 
+# 📊 Example Output
 
+![Example Output](media/output-example.png)
 
+Generated research insights are stored as a structured dataset.
 
-Generated research insights are stored in Google Sheets.
+| Date       | Title                                                        | Insights                                                                                                                       |
+| ---------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| 2026-03-01 | RoboPocket: Improve Robot Policies Instantly with Your Phone | • Smartphone-based robot policy training system • Uses AR to visualize predicted robot trajectories • Improves data efficiency |
 
-Example structure:
+---
 
-Date	Title	Insights
-2026-03-01	RoboPocket: Improve Robot Policies Instantly with Your Phone	• Smartphone-based system for robot policy improvement • Uses AR to visualize predicted robot trajectories • Improves data efficiency compared to offline imitation learning
-IF Logic Scenarios
+# ⚙️ Workflow Logic
 
-The workflow includes decision logic to ensure only new research papers are processed.
+The automation includes **decision logic** to ensure only new papers are processed.
 
-Scenario 1 — New Paper
+---
+
+## Scenario 1 — New Research Paper
+
+```
 Title NOT found in Google Sheets
+```
 
 Flow:
 
-arXiv → Prompt → IF (False)
-              ↓
-          Gemini
-              ↓
-         Store result
+```
+arXiv → Prompt → IF(False)
+               ↓
+            Gemini
+               ↓
+           Store Output
+```
 
-Outcome:
+Result:
 
-• Bullet-point insights generated
-• Paper added to research digest
+✔ Bullet-point insights generated
+✔ Entry added to research digest
 
-Scenario 2 — Duplicate Paper
+---
+
+## Scenario 2 — Duplicate Paper
+
+```
 Title FOUND in Google Sheets
+```
 
 Flow:
 
-arXiv → Prompt → IF (True)
-              ↓
-             Skip
+```
+arXiv → Prompt → IF(True)
+               ↓
+              Skip
+```
 
-Outcome:
+Result:
 
-• Gemini API not called
-• Duplicate entry avoided
+✔ Gemini API not called
+✔ Duplicate entries prevented
 
-Scenario 3 — No Data Returned
+---
 
-If arXiv returns no entries:
+## Scenario 3 — No Paper Returned
 
-Workflow exits gracefully
+```
+arXiv returns empty result
+```
 
-No unnecessary API calls are made.
+Result:
 
-Sample Data (7-Day Usage)
+✔ Workflow exits gracefully
+✔ No unnecessary API calls
 
-The workflow has been used for 7 consecutive days to automatically build a small AI research digest.
+---
 
-Date	Title	Insights
-2026-03-01	RoboPocket: Improve Robot Policies Instantly with Your Phone	• Smartphone-based robot policy training system • Uses AR visual foresight • Improves imitation learning data efficiency
-2026-03-02	Efficient Transformer Architectures for Long Context Reasoning	• Introduces long-context transformer architecture • Reduces computational cost • Improves reasoning performance
-2026-03-03	Autonomous Multi-Agent Collaboration using LLM Planning	• Framework for LLM-driven agent collaboration • Enables distributed task execution • Improves planning success rate
-2026-03-04	Self-Supervised Visual Transformers	• Self-supervised training for vision transformers • Reduces dependency on labeled datasets • Competitive performance on vision benchmarks
-2026-03-05	Reinforcement Learning for Scalable Robot Manipulation	• RL-based robot manipulation pipeline • Uses simulation for faster training • Improves real-world robustness
-2026-03-06	Retrieval-Augmented Generation for Scientific Knowledge	• Combines RAG with structured research databases • Improves factual accuracy • Reduces hallucinations
-2026-03-07	Multi-Modal AI for Autonomous Driving	• Integrates vision, LiDAR and textual reasoning • Improves perception accuracy • Enhances decision-making safety
-Tech Stack
+# 📅 Sample Data (7-Day Usage)
 
-Automation
+This workflow has been used **personally for 7 days**, automatically collecting AI research insights.
 
-n8n
+| Date       | Title                                                        | Insights                                                                                                             |
+| ---------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
+| 2026-03-01 | RoboPocket: Improve Robot Policies Instantly with Your Phone | • AR visual foresight for robot policies • Smartphone-based data collection • Improves imitation learning efficiency |
+| 2026-03-02 | Efficient Transformer Architectures                          | • Long-context transformer architecture • Reduced compute cost • Improved reasoning benchmarks                       |
+| 2026-03-03 | Multi-Agent Collaboration with LLM Planning                  | • LLM planning for distributed agents • Improved collaboration frameworks • Higher task success rates                |
+| 2026-03-04 | Self-Supervised Visual Transformers                          | • Self-supervised training pipeline • Reduced labeled data requirements • Competitive vision benchmarks              |
+| 2026-03-05 | Reinforcement Learning for Robot Manipulation                | • Simulation-based RL training • Improved manipulation robustness • Faster policy training                           |
+| 2026-03-06 | Retrieval-Augmented Generation for Science                   | • Combines RAG with research databases • Improves factual responses • Reduces hallucinations                         |
+| 2026-03-07 | Multi-Modal AI for Autonomous Driving                        | • Vision + LiDAR fusion model • Improved perception accuracy • Safer decision-making                                 |
 
-AI
+---
 
-Google Gemini API
+# 🧰 Tech Stack
 
-Data Source
+### Automation
 
-arXiv API
+* **n8n**
 
-Storage
+### AI
 
-Google Sheets API
+* **Google Gemini API**
 
-Integration
+### Data Source
 
-REST APIs
+* **arXiv API**
 
-JSON
+### Storage
 
-HTTP requests
+* **Google Sheets API**
 
-Key Concepts Demonstrated
+### Integration
 
-• Workflow automation
-• LLM integration into pipelines
-• API orchestration
+* REST APIs
+* JSON
+* HTTP Requests
+
+---
+
+# 🧩 Concepts Demonstrated
+
+This project demonstrates:
+
+• Workflow orchestration
+• LLM integration into real pipelines
 • Prompt engineering
-• Conditional workflow logic
+• API orchestration
+• Conditional automation logic
 • Automated knowledge ingestion
 
-Setup Instructions
+---
 
-Install n8n
+# ⚡ Setup
 
-Import the workflow
+### 1️⃣ Install n8n
 
+```
+npm install n8n -g
+```
+
+### 2️⃣ Import Workflow
+
+Import:
+
+```
 workflow.json
+```
 
-Add credentials
+### 3️⃣ Configure Credentials
 
+Add:
+
+```
 Gemini API key
-Google Sheets access
+Google Sheets credentials
+```
 
-Configure schedule trigger
+### 4️⃣ Activate Schedule
 
-Activate workflow
+Enable the trigger to start generating **daily AI research insights automatically**.
 
-The system will begin generating a daily AI research digest automatically.
+---
 
-Future Improvements
+# 🔮 Future Improvements
 
-Possible extensions:
+Planned extensions:
 
-• Summarize full research PDFs instead of abstracts
-• Send daily research digest via email or Slack
-• Build a RAG-based research assistant on top of collected papers
-• Store research data in a vector database for semantic search
+• Summarize **full research PDFs** instead of abstracts
+• Send daily digest via **email or Slack**
+• Build a **RAG-based research assistant** on top of stored papers
+• Store research in a **vector database for semantic search**
 
-Author
-Anuj Pundora
+---
 
-Built as a learning project exploring AI automation, workflow orchestration, and LLM-powered data pipelines.
+# 👨‍💻 Author
 
+Built as a learning project exploring:
+
+**AI automation • workflow orchestration • LLM-powered pipelines**
+
+---
 
